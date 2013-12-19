@@ -1,4 +1,5 @@
 #pragma once
+#include <stdlib.h>
 class CBit
 {
 	int len;//二进制位长度

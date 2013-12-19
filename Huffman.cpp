@@ -32,6 +32,12 @@ void CHuffman::createByMap(int map[])
 		len--;
 	}
 	root=pNodes[0];
+	if(root->r==NULL&&
+		root->l==NULL)
+	{
+		code[root->data].appendABit(0);
+		return;
+	}
 	memset(stageCode,0,256);
 	generateCode(root,0);
 }
@@ -40,9 +46,9 @@ void CHuffman::createByMap(int map[])
 void CHuffman::qsort(LPNODE* ppNodes, int start, int end)
 {
 	if(end-start<=0) return;
-	int i=0;
+	int i=start;
 	int j=0;
-	for(j=0;j<end;j++)
+	for(j=start;j<end;j++)
 	{
 		if(ppNodes[j]->value>ppNodes[end]->value)
 		{
@@ -51,8 +57,8 @@ void CHuffman::qsort(LPNODE* ppNodes, int start, int end)
 		}
 	}
 	if(i!=end)	swap(ppNodes[i],ppNodes[end]);
-	qsort(ppNodes,0,i-1);
-	qsort(ppNodes,i+1,end);
+	CHuffman::qsort(ppNodes,start,i-1);
+	CHuffman::qsort(ppNodes,i+1,end);
 }
 
 
@@ -74,30 +80,42 @@ int CHuffman::destoryTreeR(LPNODE root)
 }
 
 
-int CHuffman::getDataByCode(CBit& code)
+unsigned char CHuffman::getDataByCode(CBit& code)
 {
-	return 0;
+	LPNODE lpNode=root;
+	for(int i=0;i<code.getLength();i++)
+	{
+		if(code.getABit(i)==0)
+		{
+			lpNode=root->l;
+		}else
+		{
+			lpNode=root->r;
+		}
+	}
+	return lpNode->data;
 }
 
 void CHuffman::generateCode(LPNODE root,int pos)
 {
 	if(root!=NULL)
 	{
-		stageCode[pos]=0;
 		if(root->l)
 		{
+			stageCode[pos]=0;
 			generateCode(root->l,pos+1);
 		}else
 		{
-			stageCodetoCode(root->data,pos+1);
+			stageCodetoCode(root->data,pos);
+			return;
 		}
-		stageCode[pos]=1;
 		if(root->r)
 		{
+			stageCode[pos]=1;
 			generateCode(root->r,pos+1);
 		}else
 		{
-			stageCodetoCode(root->data,pos+1);
+			stageCodetoCode(root->data,pos);
 		}
 	}
 }

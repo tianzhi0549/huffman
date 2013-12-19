@@ -17,7 +17,7 @@ CFileStream::~CFileStream(void)
 
 bool CFileStream::openOutStream(const char* outFileName)
 {
-	fout=fopen(outFileName,"wb");
+	fout=fopen(outFileName,"ab");
 	if(fout) return true;
 	return false;
 }

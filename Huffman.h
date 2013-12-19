@@ -2,7 +2,6 @@
 #include "Bit.h"
 class CHuffman
 {
-	CBit code[256];
 	bool stageCode[255];//Âë×ÖÔÝ´æÇø
 	typedef struct _Node
 	{
@@ -24,11 +23,12 @@ public:
 	void createByMap(int  map[]);
 	void qsort(LPNODE* ppNodes, int start, int end);
 	LPNODE root;
+	CBit code[256];
 	void destoryTree(void);
 private:
 	int destoryTreeR(LPNODE root);
 	void generateCode(LPNODE root,int pos);
 	void stageCodetoCode(unsigned char data,int len);
 public:
-	int getDataByCode(CBit& code);
+	unsigned char getDataByCode(CBit& code);
 };
