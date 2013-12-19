@@ -1,6 +1,9 @@
 #pragma once
+#include "Bit.h"
 class CHuffman
 {
+	CBit code[256];
+	bool stageCode[255];//Âë×ÖÔÝ´æÇø
 	typedef struct _Node
 	{
 		_Node(int value,char data,_Node* l,_Node* r)
@@ -24,6 +27,8 @@ public:
 	void destoryTree(void);
 private:
 	int destoryTreeR(LPNODE root);
+	void generateCode(LPNODE root,int pos);
+	void stageCodetoCode(unsigned char data,int len);
 public:
 	int getDataByCode(CBit& code);
 };

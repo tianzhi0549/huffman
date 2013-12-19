@@ -32,6 +32,8 @@ void CHuffman::createByMap(int map[])
 		len--;
 	}
 	root=pNodes[0];
+	memset(stageCode,0,256);
+	generateCode(root,0);
 }
 
 
@@ -75,4 +77,35 @@ int CHuffman::destoryTreeR(LPNODE root)
 int CHuffman::getDataByCode(CBit& code)
 {
 	return 0;
+}
+
+void CHuffman::generateCode(LPNODE root,int pos)
+{
+	if(root!=NULL)
+	{
+		stageCode[pos]=0;
+		if(root->l)
+		{
+			generateCode(root->l,pos+1);
+		}else
+		{
+			stageCodetoCode(root->data,pos+1);
+		}
+		stageCode[pos]=1;
+		if(root->r)
+		{
+			generateCode(root->r,pos+1);
+		}else
+		{
+			stageCodetoCode(root->data,pos+1);
+		}
+	}
+}
+
+void CHuffman::stageCodetoCode(unsigned char data,int len)
+{
+	for(int i=0;i<len;i++)
+	{
+		code[data].appendABit(stageCode[i]);
+	}
 }
