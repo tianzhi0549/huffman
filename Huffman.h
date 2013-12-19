@@ -21,7 +21,7 @@ public:
 	CHuffman(void);
 	virtual ~CHuffman(void);
 	void createByMap(int  map[]);
-	void qsort(LPNODE* ppNodes, int start, int end);
+	void qsort(LPNODE* ppNodes, int start, int end,bool isDesc=1);
 	LPNODE root;
 	CBit code[256];
 	void destoryTree(void);

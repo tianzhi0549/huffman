@@ -22,7 +22,7 @@ void CHuffman::createByMap(int map[])
 	}
 	qsort(pNodes,0,255);
 	int len=0;
-	for(;pNodes[len]->value!=0;len++);
+	for(;len<256&&pNodes[len]->value!=0;len++);
 	if(len==0) return;
 	while(len>1)
 	{
@@ -30,6 +30,7 @@ void CHuffman::createByMap(int map[])
 								0,pNodes[len-2],pNodes[len-1]);
 		pNodes[len-2]=pTmpNode;
 		len--;
+		qsort(pNodes,0,len-1);
 	}
 	root=pNodes[0];
 	if(root->r==NULL&&
@@ -43,22 +44,32 @@ void CHuffman::createByMap(int map[])
 }
 
 
-void CHuffman::qsort(LPNODE* ppNodes, int start, int end)
+void CHuffman::qsort(LPNODE* ppNodes, int start, int end,bool isDesc)
 {
 	if(end-start<=0) return;
 	int i=start;
 	int j=0;
 	for(j=start;j<end;j++)
 	{
-		if(ppNodes[j]->value>ppNodes[end]->value)
+		if(isDesc)
 		{
-			swap(ppNodes[j],ppNodes[i]);
-			i++;
+			if(ppNodes[j]->value>ppNodes[end]->value)
+			{
+				swap(ppNodes[j],ppNodes[i]);
+				i++;
+			}
+		}else
+		{
+			if(ppNodes[j]->value<ppNodes[end]->value)
+			{
+				swap(ppNodes[j],ppNodes[i]);
+				i++;
+			}
 		}
 	}
 	if(i!=end)	swap(ppNodes[i],ppNodes[end]);
-	CHuffman::qsort(ppNodes,start,i-1);
-	CHuffman::qsort(ppNodes,i+1,end);
+	CHuffman::qsort(ppNodes,start,i-1,isDesc);
+	CHuffman::qsort(ppNodes,i+1,end,isDesc);
 }
 
 

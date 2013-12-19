@@ -1,5 +1,6 @@
 #pragma once
 #include <stdio.h>
+#include "Bit.h"
 class CFileStream
 {
 public:
@@ -14,4 +15,5 @@ private:
 	int writedLen;
 public:
 	bool pushABit(bool theBit);
+	void pushBits(CBit& bits);
 };

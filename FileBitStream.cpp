@@ -48,3 +48,11 @@ bool CFileStream::pushABit(bool theBit)
 	}
 	return true;
 }
+
+void CFileStream::pushBits(CBit& bits)
+{
+	for(int i=0;i<bits.getLength();i++)
+	{
+		pushABit(bits.getABit(i));
+	}
+}
