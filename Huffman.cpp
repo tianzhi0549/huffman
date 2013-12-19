@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-CHuffman::CHuffman(void):root(0)
+CHuffman::CHuffman(void):root(0),curNode(0)
 {
 
 }

@@ -56,3 +56,29 @@ void CFileStream::pushBits(CBit& bits)
 		pushABit(bits.getABit(i));
 	}
 }
+
+
+bool CFileStream::openInStream(const char* inFileName)
+{
+	usedBuffer=8;
+	fin=fopen(inFileName,"rb");
+	if(fin) return true;
+	return false;
+}
+
+bool CFileStream::getCurrentBit(void)
+{
+	if(usedBuffer==8)
+	{
+		buffer=fgetc(fin);
+		usedBuffer=0;
+	}
+	usedBuffer++;
+	return (buffer&(unsigned char)(1<<(8-usedBuffer)))!=0;
+}
+
+
+void CFileStream::closeInStream(void)
+{
+	fclose(fin);
+}
